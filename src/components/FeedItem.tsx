@@ -14,6 +14,7 @@ import {
   Feather,
   Octicons,
 } from "@expo/vector-icons";
+import InteractiveContent from "./InteractiveContent";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,6 +25,11 @@ interface FeedItemProps {
   comments: number;
   shares: number;
   backgroundColor?: string;
+  html?: string;
+  css?: string;
+  js?: string;
+  onWebViewTouchStart?: () => void;
+  onWebViewTouchEnd?: () => void;
 }
 
 const FeedItem: React.FC<FeedItemProps> = ({
@@ -33,20 +39,35 @@ const FeedItem: React.FC<FeedItemProps> = ({
   comments,
   shares,
   backgroundColor = "#000",
+  html,
+  css,
+  js,
+  onWebViewTouchStart,
+  onWebViewTouchEnd,
 }) => {
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      {/* Main content area - placeholder for interactive content */}
+      {/* Bottom swipe zone - covers navbar area */}
+      <View style={styles.bottomSwipeZone} pointerEvents="auto" />
+
+      {/* Right side swipe zone - expanded hit area */}
+      <View style={styles.rightSwipeZone} pointerEvents="auto" />
+
+      {/* Main content area - interactive content */}
       <View style={styles.contentArea}>
-        <View style={styles.placeholderContent}>
-          <Ionicons name="code-slash" size={60} color="rgba(255,255,255,0.3)" />
-          <Text style={styles.placeholderText}>Interactive Content Here</Text>
-        </View>
+        <InteractiveContent
+          html={html}
+          css={css}
+          js={js}
+          backgroundColor={backgroundColor}
+          onTouchStart={onWebViewTouchStart}
+          onTouchEnd={onWebViewTouchEnd}
+        />
       </View>
 
       {/* Bottom left user info */}
-      <View style={styles.bottomSection}>
-        <View style={styles.userInfo}>
+      <View style={styles.bottomSection} pointerEvents="box-none">
+        <View style={styles.userInfo} pointerEvents="auto">
           <View style={styles.usernameRow}>
             <FontAwesome name="user-circle" size={20} color="#fff" />
             <Text style={styles.username}>@{username}</Text>
@@ -56,27 +77,27 @@ const FeedItem: React.FC<FeedItemProps> = ({
       </View>
 
       {/* Right side action buttons */}
-      <View style={styles.rightActions}>
+      <View style={styles.rightActions} pointerEvents="box-none">
         {/* Like button */}
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} pointerEvents="auto">
           <Feather name="heart" size={29} color="#fff" />
           <Text style={styles.actionText}>{formatCount(likes)}</Text>
         </TouchableOpacity>
 
         {/* Comment button */}
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} pointerEvents="auto">
           <FontAwesome6 name="comments" size={26} color="#fff" />
           <Text style={styles.actionText}>{formatCount(comments)}</Text>
         </TouchableOpacity>
 
         {/* Share button */}
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} pointerEvents="auto">
           <Octicons name="share" size={28} color="#fff" />
           <Text style={styles.actionText}>{formatCount(shares)}</Text>
         </TouchableOpacity>
 
         {/* More options button */}
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} pointerEvents="auto">
           <Feather name="more-horizontal" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -103,8 +124,23 @@ const styles = StyleSheet.create({
   },
   contentArea: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    width: "100%",
+  },
+  bottomSwipeZone: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 400,
+    backgroundColor: "transparent",
+  },
+  rightSwipeZone: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 250,
+    backgroundColor: "transparent",
   },
   placeholderContent: {
     justifyContent: "center",
@@ -119,7 +155,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 100,
     left: 10,
-    right: 80,
+    right: 90,
   },
   userInfo: {
     paddingHorizontal: 10,

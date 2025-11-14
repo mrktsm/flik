@@ -39,7 +39,7 @@ const TabNavigator = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="gesture" size={28} color={color} />
+            <Feather name="home" size={28} color={color} />
           ),
         }}
       />

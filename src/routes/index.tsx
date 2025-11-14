@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Ionicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome, MaterialCommunityIcons, Feather, Octicons } from '@expo/vector-icons';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BlurView } from 'expo-blur';
 
 import Home from '../pages/Home';
 import Discover from '../pages/Discover';
@@ -13,35 +14,32 @@ import Inbox from '../pages/Inbox';
 import Profile from '../pages/Profile';
 import CreateButton from '../components/CreateButton';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const TabNavigator = () => {
-  const insets = useSafeAreaInsets();
-  
   return (
     <Tab.Navigator
-      shifting={false}
-      labeled={false}
-      barStyle={{
-        backgroundColor: '#000',
-        height: 50 + insets.bottom,
-        paddingBottom: insets.bottom,
-      }}
-      activeIndicatorStyle={{
-        backgroundColor: 'transparent',
-      }}
       initialRouteName="Home"
-      activeColor="#fff"
-      inactiveColor="#888"
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          position: 'absolute',
+          backgroundColor: 'transparent',
+          borderTopWidth: 0,
+          elevation: 0,
+        },
+        tabBarActiveTintColor: '#fff',
+        tabBarInactiveTintColor: '#888',
+        tabBarShowLabel: false,
+      }}
     >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="home" size={24} color={color} />
+            <MaterialCommunityIcons name="gesture" size={28} color={color} />
           ),
         }}
       />
@@ -49,37 +47,17 @@ const TabNavigator = () => {
         name="Discover"
         component={Discover}
         options={{
-          tabBarLabel: 'Discover',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="search" size={24} color={color} />
+            <Ionicons name="search" size={28} color={color} />
           ),
-        }}
-      />
-      <Tab.Screen
-        name="Create"
-        component={Create}
-        listeners={({ navigation }) => ({
-          tabPress: (e) => {
-            e.preventDefault();
-            navigation.navigate('CreateModal');
-          },
-        })}
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: () => <CreateButton />,
         }}
       />
       <Tab.Screen
         name="Inbox"
         component={Inbox}
         options={{
-          tabBarLabel: 'Inbox',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="message-text-outline"
-              size={24}
-              color={color}
-            />
+            <Feather name="inbox" size={28} color={color} />
           ),
         }}
       />
@@ -87,9 +65,8 @@ const TabNavigator = () => {
         name="Profile"
         component={Profile}
         options={{
-          tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="user" size={24} color={color} />
+            <Octicons name="person" size={28} color={color} />
           ),
         }}
       />

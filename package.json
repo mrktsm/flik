@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@expo-google-fonts/space-mono": "^0.4.2",
+    "expo-font": "^14.0.9"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "@types/react": "~19.1.10",
+    "puppeteer": "^24.31.0",
+    "ts-node": "^10.9.2"
+  }
+}

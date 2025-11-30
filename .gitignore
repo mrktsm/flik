@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+
+# Games and temp files
+*.zip
+2048-version-2-0/
+3d-dice-three-js/
+claw-machine/
+etch-a-sketch/
+fidget-spinner-3-0/
+skating-bunny/
+skating-bunny-temp/
+the-cube/
+tower-block/
+dinosaur-memory-game-temp/
+hammer-temp/
+mini-gsap-temp/
+slide-puzzle-temp/
+temp_flappy_dino/
+temp_spikes/
+
+# Build scripts
+build_geckos.js
+create_skating_bunny.js
+fix_skating_bunny.js
+fix_skating_bunny_final.js
+fix_skating_bunny_simple.js
+fix_skating_bunny_v2.js
+recreate_skating_bunny.js
+generate_thecube.ts
+
+# IDE
+.vscode/
+flik.code-workspace
+
+# OS
+.DS_Store
+
